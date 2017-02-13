@@ -1,5 +1,5 @@
 # sweet-hornbill-bookstore
-Authors: @lumodon @generalmeow<br>
+Authors: <a href="https://github.com/lumodon">@lumodon</a> <a href="https://github.com/generalmeow">@generalmeow</a><br>
 Link to the <a href="https://github.com/GuildCrafts/web-development-js/issues/69"> original goal</a>
 
 ## Description
