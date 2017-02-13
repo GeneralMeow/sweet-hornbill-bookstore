@@ -1,5 +1,5 @@
 # sweet-hornbill-bookstore
-Authors: @lumodon @generalmeow
+Authors: @lumodon @generalmeow<br>
 Link to the <a href="https://github.com/GuildCrafts/web-development-js/issues/69"> original goal</a>
 
 ## Description
