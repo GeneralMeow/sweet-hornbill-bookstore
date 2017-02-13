@@ -1,0 +1,20 @@
+{
+  "name": "sweet-hornbill-bookstore",
+  "version": "1.0.0",
+  "description": "Authors: <a href=\"https://github.com/lumodon\">@lumodon</a> <a href=\"https://github.com/generalmeow\">@generalmeow</a><br> Link to the <a href=\"https://github.com/GuildCrafts/web-development-js/issues/69\"> original goal</a>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeneralMeow/sweet-hornbill-bookstore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GeneralMeow/sweet-hornbill-bookstore/issues"
+  },
+  "homepage": "https://github.com/GeneralMeow/sweet-hornbill-bookstore#readme"
+}
