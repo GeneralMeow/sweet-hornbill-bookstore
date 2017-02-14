@@ -19,6 +19,7 @@ const getSingleGenre = ( request, response ) => {
   return db.one('SELECT * FROM books WHERE genre = $1', genre)
 }
 
+
 const updateBook = data => {
   return db.oneOrNone(`
     UPDATE books
@@ -29,10 +30,24 @@ const updateBook = data => {
     WHERE id = $1`, [data.id, data.title, data.author, data.genre, data.description] )
 }
 
+const addBook = ( request, response ) => {
+  return db.any('SELECT * FROM books')
+}
+
+const createBook = ( request, response ) => {
+  const { title, author, genre, description, img_url } = request.body
+  return db.any(`
+    INSERT INTO books( title, author, genre, description, img_url)
+    VALUES( $1, $2, $3, $4, $5 )
+    RETURNING *`, [title, author, genre, description, img_url])
+}
+
 module.exports = {
   getAllBooks,
   getSingleBook,
   getSingleAuthor,
   getSingleGenre,
   updateBook
+  addBook,
+  createBook
 }
