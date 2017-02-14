@@ -1,9 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const queries = require('../queries')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
+
+router.get('/', function( request, response, next ) {
+  queries.getAllBooks()
+    .then( data => {
+      response.render('index', {
+        title: 'Sweet Hornbill Bookstore',
+        books: data
+      });
+    })
+})
 module.exports = router;
