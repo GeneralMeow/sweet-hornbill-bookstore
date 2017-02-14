@@ -56,6 +56,20 @@ router.get('/genre/:genre', function( request, response, next ) {
     })
   })
 
+router.get('/addbook', function( request, response, next ) {
+  queries.addBook( request, response )
+    .then( data => {
+      response.render('addbook', {
+        title: data.title,
+        books: data
+      })
+    })
+    .catch(function(err) {
+      return next(err)
+    })
+})
+
+router.post('')
 
 
 module.exports = router;
