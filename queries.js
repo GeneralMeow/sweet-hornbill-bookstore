@@ -12,14 +12,14 @@ const getSingleBook = ( request, response ) => {
 }
 
 const getSingleAuthor = ( request, response ) => {
-    console.log('this is the request--->>>', request.params)
   const author = request.params.author
-    const jamesisabutt = db.one('SELECT * FROM books WHERE author = $1', author)
-    console.log('james====D', jamesisabutt)
-  return jamesisabutt
+    return db.one('SELECT * FROM books WHERE author = $1', author)
 }
 
-
+const getSingleGenre = ( request, response ) => {
+  const genre = request.params.genre
+    return db.one('SELECT * FROM books WHERE genre = $1', genre)
+}
 
 
 
@@ -30,5 +30,6 @@ const getSingleAuthor = ( request, response ) => {
 module.exports = {
   getAllBooks,
   getSingleBook,
-  getSingleAuthor
+  getSingleAuthor,
+  getSingleGenre
 }
