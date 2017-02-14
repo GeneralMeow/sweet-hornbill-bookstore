@@ -19,7 +19,6 @@ const getSingleGenre = ( request, response ) => {
   return db.one('SELECT * FROM books WHERE genre = $1', genre)
 }
 
-
 const updateBook = data => {
   return db.oneOrNone(`
     UPDATE books
