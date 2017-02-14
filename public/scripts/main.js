@@ -6,6 +6,17 @@ function setAttributes(element, attributes){
   }
 }
 
+function update(data) {
+  return fetch('/api/update', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
 function replaceWithInput(type, index) {
   let element = document.querySelector('#'+type+index)
   if( element ){  // Normal mode to edit mode
@@ -33,6 +44,7 @@ function replaceWithInput(type, index) {
       elementInput.textContent = text
       element.parentNode.replaceChild(elementInput, element)
     }
+    return false
   } else { // Edit mode to normal mode
     let elementInput = document.querySelector('#'+type+'Input'+index)
     let text = elementInput.value
@@ -40,12 +52,26 @@ function replaceWithInput(type, index) {
     element.setAttribute('id', type+index)
     element.textContent = text
     elementInput.parentNode.replaceChild(element, elementInput)
+    return true
   }
 }
 
 function edit(bookNumber) {
+  const data = {id: bookNumber}
   for(let field of fields){
-    replaceWithInput(field, bookNumber)
+    updateData = replaceWithInput(field, bookNumber)
+    if( updateData ) {
+      const inputField = document.querySelector('#'+field+bookNumber)
+      if( inputField.tagName === 'INPUT') {
+        data[field] = inputField.value
+      } else {
+        data[field] = inputField.textContent
+      }
+    }
+  }
+  // console.log("data object", data)
+  if( updateData ) {
+    update(data)
   }
 }
 
