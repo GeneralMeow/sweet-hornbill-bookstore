@@ -12,5 +12,41 @@ router.get('/', function( request, response, next ) {
         books: data
       });
     })
+    .catch(function(err) {
+    return next(err)
+  })
 })
+
+router.get('/book/:id', function( request, response, next ) {
+  queries.getSingleBook( request, response )
+    .then( data => {
+      response.render('singlebook', {
+        title: data.title,
+        books: data
+      })
+    })
+    .catch(function(err) {
+    return next(err)
+  })
+})
+
+router.get('/author/:author', function( request, response, next ) {
+  queries.getSingleAuthor( request, response )
+    .then( data => {
+      console.log('HITMAN', data)
+      response.render('author', {
+        title: data.title,
+        books: data
+      })
+    })
+    .catch( function(err) {
+      return next(err)
+    })
+})
+
+
+
+
+
+
 module.exports = router;
