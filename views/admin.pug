@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title} - you are in admin mode
+  a(href='#') Add new book
+  ul
+    each book in books
+      li(id='title'+book.id) #{book.title}
+      button(onclick='edit('+book.id+', '+books.length+')')
