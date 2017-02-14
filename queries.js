@@ -2,8 +2,6 @@ const pgp = require('pg-promise')()
 const connectionString = 'postgres://localhost:5432/sweethornbillbookstore'
 const db = pgp(connectionString)
 
-
-
 const getAllBooks = () => db.any( 'SELECT * FROM books' )
 
 const getSingleBook = ( request, response ) => {
@@ -13,23 +11,28 @@ const getSingleBook = ( request, response ) => {
 
 const getSingleAuthor = ( request, response ) => {
   const author = request.params.author
-    return db.one('SELECT * FROM books WHERE author = $1', author)
+  return db.one('SELECT * FROM books WHERE author = $1', author)
 }
 
 const getSingleGenre = ( request, response ) => {
   const genre = request.params.genre
-    return db.one('SELECT * FROM books WHERE genre = $1', genre)
+  return db.one('SELECT * FROM books WHERE genre = $1', genre)
 }
 
-
-
-
-
-
+const updateBook = data => {
+  return db.oneOrNone(`
+    UPDATE books
+    SET title=$2,
+        author=$3,
+        genre=$4,
+        description=$5
+    WHERE id = $1`, [data.id, data.title, data.author, data.genre, data.description] )
+}
 
 module.exports = {
   getAllBooks,
   getSingleBook,
   getSingleAuthor,
-  getSingleGenre
+  getSingleGenre,
+  updateBook
 }
