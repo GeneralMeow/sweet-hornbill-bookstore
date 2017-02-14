@@ -1,33 +1,56 @@
-// TODO: If user clicks edit on a second book before finishing edit on first, state it lost
-// Do we have multiple states for each book? force close the previous one?
-// Perhaps just move line 11 into an if statement and put it into the edit handler.
-// OR we don't have to keep track of it at all! let's just rebuild it when you finish editing.
+const fields = ['title', 'author', 'genre', 'description']
 
-// Perhaps the edit function should have two completely independant branches of logic, one for
-// if edit mode is on, and one for if edit mode is off, then just create the dom elements each time
-
-const state = {
-  editmode: false,
-  title: undefined
+function setAttributes(element, attributes){
+  for( let attribute in attributes ){
+    element.setAttribute(attribute, attributes[attribute])
+  }
 }
 
-document.addEventListener("DOMContentLoaded", event => {
-  state.title = document.querySelector('#title'+bookNumber)
-})
-
-function edit(bookNumber, numOfBooks) {
-  state.editmode = !state.editmode
-  let titleInput = document.querySelector('#titleInput'+bookNumber)
-  if(!titleInput){
-    titleInput = document.createElement('input')
-    titleInput.setAttribute('type', 'text')
-    titleInput.setAttribute('placeholder', 'Title')
-    titleInput.setAttribute('value', state.title.textContent)
-    titleInput.setAttribute('id', 'titleInput'+bookNumber)
+function replaceWithInput(type, index) {
+  let element = document.querySelector('#'+type+index)
+  if( element ){  // Normal mode to edit mode
+    if( type !== 'description' ) {  // input text
+      let text = element.textContent
+      elementInput = document.createElement('input')
+      setAttributes(elementInput, {
+        'type': 'text',
+        'placeholder': type,
+        'value': text,
+        'id': type+'Input'+index,
+        'onkeyup': 'inputKeyUp(event, '+index+')'
+      })
+      element.parentNode.replaceChild(elementInput, element)
+    } else {  // input textarea
+      let text = element.textContent
+      elementInput = document.createElement('textarea')
+      setAttributes(elementInput, {
+        'cols': 60,
+        'rows': 8,
+        'placeholder': type,
+        'id': type+'Input'+index,
+        'onkeyup': 'inputKeyUp(event, '+index+')'
+      })
+      elementInput.textContent = text
+      element.parentNode.replaceChild(elementInput, element)
+    }
+  } else { // Edit mode to normal mode
+    let elementInput = document.querySelector('#'+type+'Input'+index)
+    let text = elementInput.value
+    element = document.createElement('li')
+    element.setAttribute('id', type+index)
+    element.textContent = text
+    elementInput.parentNode.replaceChild(element, elementInput)
   }
-  if(state.editmode) {
-    state.title.parentNode.replaceChild(titleInput, state.title)
-  } else {
-    titleInput.parentNode.replaceChild(state.title, titleInput)
+}
+
+function edit(bookNumber) {
+  for(let field of fields){
+    replaceWithInput(field, bookNumber)
+  }
+}
+
+function inputKeyUp(event, bookNumber) {
+  if(event.code === "Enter"){
+    edit(bookNumber)
   }
 }

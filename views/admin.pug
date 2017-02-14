@@ -7,4 +7,7 @@ block content
   ul
     each book in books
       li(id='title'+book.id) #{book.title}
-      button(onclick='edit('+book.id+', '+books.length+')')
+      li(id='author'+book.id) #{book.author}
+      li(id='genre'+book.id) #{book.genre}
+      li(id='description'+book.id) #{book.description}
+      button(onclick='edit('+book.id+', \''+book.title+'\')') Edit
