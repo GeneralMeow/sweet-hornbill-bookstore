@@ -69,7 +69,7 @@ function edit(bookNumber) {
       }
     }
   }
-  // console.log("data object", data)
+
   if( updateData ) {
     update(data)
       .then( returnVal => {

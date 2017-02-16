@@ -2,8 +2,13 @@ const express = require('express')
 const router = express.Router()
 const queries = require('../queries')
 
-router.get('/', ( request, response, next ) => {
-  queries.getAllBooks()
+router.get('/', ( request, response ) => {
+  response.redirect('/1')
+})
+
+router.get('/:page', ( request, response, next ) => {
+  const page = request.params.page
+  queries.getTenBooks(page)
     .then( data => {
       response.render('index', {
         title: 'Sweet Hornbill Bookstore',

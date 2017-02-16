@@ -4,6 +4,11 @@ const db = pgp(connectionString)
 
 const getAllBooks = () => db.any( 'SELECT * FROM books' )
 
+const getTenBooks = page => {
+  if(page < 1) page = 1
+  return db.any( 'SELECT * FROM books LIMIT 10 OFFSET $1', ((page-1)*10))
+}
+
 const getSingleBook = ( request, response ) => {
   const id = request.params.id
   return db.one('SELECT * FROM books WHERE id = $1', id)
@@ -43,6 +48,7 @@ const createBook = ( request, response ) => {
 
 module.exports = {
   getAllBooks,
+  getTenBooks,
   getSingleBook,
   getSingleAuthor,
   getSingleGenre,
