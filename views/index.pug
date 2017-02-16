@@ -3,8 +3,13 @@ extends layout
 block content
   h1= title
   p Welcome to #{title} the best bookstore around!
-    ul
+  ul
+    h4 Pages:
+    - for(var i = 0; i < `${count}`; i++) {
+    a.pageLink(href='/' + `${i+1}`) #{i+1}
+    - }
+  ul
     each book in books
       li=book.title
-      .imageContainer
-        img(src=book.img_url)
+        .imageContainer
+          img(src=book.img_url)
