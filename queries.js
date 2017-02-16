@@ -47,7 +47,6 @@ module.exports = {
   getSingleAuthor,
   getSingleGenre,
   updateBook,
-  addBook,
   addBookPage,
   createBook
 }

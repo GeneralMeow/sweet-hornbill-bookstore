@@ -7,3 +7,31 @@ body {
 a {
   color: #00B7FF;
 }
+
+.imageContainer {
+  width: 150px;
+}
+
+.imageContainer img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.links {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background-color: rgb(254, 221, 173);
+  padding: 10px;
+}
+
+.links a {
+  margin: 0 25px;
+}
+
+.links .border {
+  display: inline;
+  border-left: 1px solid black;
+  height: 100%;
+  width: 1px;
+}
