@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= 'Sweet Hornbill Bookstore'
+  p Add a book to the best bookstore around!
+    form(method='POST' action='/addbook')
+      div
+        input(type='text', placeholder='title', name='title')
+      div
+        input(type='text', placeholder='author', name='author')
+      div
+        input(type='text', placeholder='genre', name='genre')
+      div
+        input(type='text', placeholder='description', name='description')
+      div
+        input(type='text', placeholder='img_url', name='img_url')
+      button(type='submit') Add Book!
