@@ -1,23 +1,21 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const queries = require('../queries')
 
-
-
-router.get('/', function( request, response, next ) {
+router.get('/', ( request, response, next ) => {
   queries.getAllBooks()
     .then( data => {
       response.render('index', {
         title: 'Sweet Hornbill Bookstore',
         books: data
-      });
+      })
     })
-    .catch(function(err) {
-    return next(err)
+    .catch( ( err ) => {
+    return next( err )
   })
 })
 
-router.get('/book/:id', function( request, response, next ) {
+router.get('/book/:id', ( request, response, next ) => {
   queries.getSingleBook( request, response )
     .then( data => {
       response.render('singlebook', {
@@ -25,51 +23,60 @@ router.get('/book/:id', function( request, response, next ) {
         books: data
       })
     })
-    .catch(function(err) {
-    return next(err)
+    .catch( ( err ) => {
+    return next( err )
   })
 })
 
-router.get('/author/:author', function( request, response, next ) {
+router.get( '/author/:author', ( request, response, next ) => {
   queries.getSingleAuthor( request, response )
     .then( data => {
-      response.render('author', {
+      response.render( 'author', {
         title: data.title,
         books: data
       })
     })
-    .catch( function(err) {
-      return next(err)
+    .catch( ( err ) => {
+      return next( err )
     })
 })
 
-router.get('/genre/:genre', function( request, response, next ) {
+router.get( '/genre/:genre', ( request, response, next ) => {
   queries.getSingleGenre( request, response )
     .then( data => {
-      response.render('genre', {
+      response.render( 'genre', {
         title: data.title,
         books: data
       })
     })
-    .catch( function(err) {
-      return next(err)
+    .catch( ( err ) => {
+      return next( err )
     })
   })
 
-router.get('/addbook', function( request, response, next ) {
-  queries.addBook( request, response )
+router.get( '/addbook', ( request, response, next ) => {
+  queries.addBookPage( request, response )
     .then( data => {
-      response.render('addbook', {
+      response.render( 'addbook', {
         title: data.title,
         books: data
       })
     })
-    .catch(function(err) {
-      return next(err)
+    .catch( ( err ) => {
+      return next( err )
     })
 })
 
-router.post('')
+router.post( '/addbook', ( request, response, next ) => {
+  const { bookId } = request.params.id
+  queries.createBook( request, response )
+    .then( data => {
+      response.redirect( `/book/${bookId}` )
+    })
+    .catch( ( err ) => {
+      return next( err )
+    })
+})
 
 
-module.exports = router;
+module.exports = router

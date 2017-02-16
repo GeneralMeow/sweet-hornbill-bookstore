@@ -10,8 +10,8 @@ const getSingleBook = ( request, response ) => {
 }
 
 const getSingleAuthor = ( request, response ) => {
-  const author = request.params.author
-  return db.one('SELECT * FROM books WHERE author = $1', author)
+  const author = request.params.author.toLowerCase()
+    return db.any('SELECT * FROM books WHERE LOWER(author) = $1', author)
 }
 
 const getSingleGenre = ( request, response ) => {
@@ -30,7 +30,7 @@ const updateBook = data => {
     WHERE id = $1`, [data.id, data.title, data.author, data.genre, data.description] )
 }
 
-const addBook = ( request, response ) => {
+const addBookPage = ( request, response ) => {
   return db.any('SELECT * FROM books')
 }
 
@@ -47,7 +47,8 @@ module.exports = {
   getSingleBook,
   getSingleAuthor,
   getSingleGenre,
-  updateBook
+  updateBook,
   addBook,
+  addBookPage,
   createBook
 }
