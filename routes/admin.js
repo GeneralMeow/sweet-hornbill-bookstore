@@ -3,10 +3,10 @@ const router = express.Router();
 const queries = require('../queries')
 
 router.get('/', function( request, response ) {
-  response.redirect('/admin/1')
+  response.redirect('/admin/list/1')
 })
 
-router.get('/:page', function( request, response, next ) {
+router.get('/list/:page', function( request, response, next ) {
   const page = request.params.page
   Promise.all([
     queries.getTenBooks(page),

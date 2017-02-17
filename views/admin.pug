@@ -7,7 +7,7 @@ block content
   h4 Pages:
   - var i = -1;
   while ++i < `${count}`
-    a.pageLink(href='/admin/' + `${i+1}`) #{i+1}
+    a.pageLink(href='/admin/list/' + `${i+1}`) #{i+1}
   ul.bookList
     each book in books
       li.bookItem
