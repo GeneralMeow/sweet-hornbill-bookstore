@@ -17,7 +17,7 @@ function update(data) {
   })
 }
 
-function replaceWithInput(type, index) {
+function replaceWithInputTags(type, index) {
   let element = document.querySelector('#'+type+index)
   if( element ){  // Normal mode to edit mode
     if( type !== 'description' ) {  // input text
@@ -56,16 +56,47 @@ function replaceWithInput(type, index) {
   }
 }
 
+function validateFields(bookNumber){
+  for(let field of fields){
+    const domField = document.querySelector('#'+field+bookNumber) || document.querySelector('#'+field+'Input'+bookNumber)
+
+    let exitCode
+    if(field){
+      if(field.value){
+        exitCode = !(field.value.length > 0)
+      } else if(field.textContent){
+        exitCode = !(field.textContent.length > 0)
+      } else {
+        exitCode = true
+      }
+    } else {
+      throw new Error("Big error here. Burn your laptop and bury it in nuclear radiation to keep safe.")
+    }
+
+    if(exitCode) {
+      domField.style.border = '2px solid red'
+      return false
+    } else {
+      domField.style = ''
+    }
+
+  }
+}
+
 function edit(bookNumber) {
   const data = {id: bookNumber}
+  let exitCode = validateFields(bookNumber)
+  if(exitCode) return false
+
   for(let field of fields){
-    updateData = replaceWithInput(field, bookNumber)
+    const domField = document.querySelector('#'+field+bookNumber) || document.querySelector('#'+field+'Input'+bookNumber)
+
+    updateData = replaceWithInputTags(field, bookNumber)
     if( updateData ) {
-      const inputField = document.querySelector('#'+field+bookNumber)
-      if( inputField.tagName === 'INPUT') {
-        data[field] = inputField.value
+      if( domField.tagName === 'INPUT') {
+        data[field] = domField.value
       } else {
-        data[field] = inputField.textContent
+        data[field] = domField.textContent
       }
     }
   }
