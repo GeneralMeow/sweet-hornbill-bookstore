@@ -4,10 +4,16 @@ block content
   h1= title
   p Welcome to #{title} - you are in admin mode
   a(href='#') Add new book
-  ul
+  h4 Pages:
+  - var i = -1;
+  while ++i < `${count}`
+    a.pageLink(href='/admin/' + `${i+1}`) #{i+1}
+  ul.bookList
     each book in books
-      li(id='title'+book.id) #{book.title}
-      li(id='author'+book.id) #{book.author}
-      li(id='genre'+book.id) #{book.genre}
-      li(id='description'+book.id) #{book.description}
-      button(onclick='edit('+book.id+', \''+book.title+'\')') Edit
+      li.bookItem
+        ul
+          li(id='title'+book.id) #{book.title}
+          li(id='author'+book.id) #{book.author}
+          li(id='genre'+book.id) #{book.genre}
+          li(id='description'+book.id) #{book.description}
+          button(onclick='edit('+book.id+', \''+book.title+'\')') Edit

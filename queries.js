@@ -2,7 +2,14 @@ const pgp = require('pg-promise')()
 const connectionString = 'postgres://localhost:5432/sweethornbillbookstore'
 const db = pgp(connectionString)
 
+const getQuantityOfBooks = () => db.one( 'SELECT COUNT(*) FROM books')
+
 const getAllBooks = () => db.any( 'SELECT * FROM books' )
+
+const getTenBooks = page => {
+  if(page < 1) page = 1
+  return db.any( 'SELECT * FROM books LIMIT 10 OFFSET $1', ((page-1)*10))
+}
 
 const getSingleBook = ( request, response ) => {
   const id = request.params.id
@@ -42,7 +49,9 @@ const createBook = ( request, response ) => {
 }
 
 module.exports = {
+  getQuantityOfBooks,
   getAllBooks,
+  getTenBooks,
   getSingleBook,
   getSingleAuthor,
   getSingleGenre,

@@ -24,10 +24,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 app.use('/users', users);
-app.use('/admin', admin);
 app.use('/api', api);
+app.use('/admin', admin);
+app.use('/', index);  // This line must be last, since we're using a '/:...' syntax
+                      // in the empty route, we want to get strings like 'admin' first
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

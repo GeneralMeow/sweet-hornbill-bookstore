@@ -2,12 +2,27 @@ const express = require('express')
 const router = express.Router()
 const queries = require('../queries')
 
-router.get('/', ( request, response, next ) => {
-  queries.getAllBooks()
-    .then( data => {
+router.get('/', ( request, response ) => {
+  response.redirect('/1')
+})
+
+// TODO: Figure out how to add "count" to navbar, when navbar is being included not blocked out.
+// Then we can have the page numbers listed along bottom of navbar where they should be, instead
+// of having to style them inside the index.pug
+
+router.get('/:page', ( request, response, next ) => {
+  const page = request.params.page
+  Promise.all([
+    queries.getTenBooks(page),
+    queries.getQuantityOfBooks()
+  ])
+    .then( values => {
+      const data = values[0]
+      const count = Math.trunc((values[1].count / 10) + 1)
       response.render('index', {
         title: 'Sweet Hornbill Bookstore',
-        books: data
+        books: data,
+        count: count
       })
     })
     .catch( ( err ) => {
