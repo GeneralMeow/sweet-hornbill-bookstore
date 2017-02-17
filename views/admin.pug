@@ -5,10 +5,10 @@ block content
   p Welcome to #{title} - you are in admin mode
   a(href='#') Add new book
   h4 Pages:
-  - for(var i = 0; i < `${count}`; i++) {
-  a.pageLink(href='/' + `${i+1}`) #{i+1}
-  - }
-  ul
+  - var i = -1;
+  while ++i < `${count}`
+    a.pageLink(href='/' + `${i+1}`) #{i+1}
+  ul.bookList
     each book in books
       li.bookItem
         ul

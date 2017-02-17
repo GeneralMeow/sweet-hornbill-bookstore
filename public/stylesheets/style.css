@@ -8,6 +8,20 @@ a {
   color: #00B7FF;
 }
 
+.book {
+  display: flex;
+  padding: auto;
+  width: 200px;
+  margin: 10px;
+  flex-direction: column;
+}
+
+.bookList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .imageContainer {
   width: 150px;
 }
@@ -46,4 +60,8 @@ h4 {
 
 .bookItem {
   margin-bottom: 25px;
+}
+
+.block {
+  display: block;
 }
