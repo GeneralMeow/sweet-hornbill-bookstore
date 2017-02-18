@@ -57,30 +57,43 @@ function replaceWithInputTags(type, index) {
 }
 
 function validateFields(bookNumber){
+  let exitCode = false
   for(let field of fields){
-    const domField = document.querySelector('#'+field+bookNumber) || document.querySelector('#'+field+'Input'+bookNumber)
+    const domField = document.querySelector('#'+field+'Input'+bookNumber)
+    let colorThisDom = false
 
-    let exitCode
-    if(field){
-      if(field.value){
-        exitCode = !(field.value.length > 0)
-      } else if(field.textContent){
-        exitCode = !(field.textContent.length > 0)
+    if(domField){
+      if(domField.value){
+        // Note to PURR reviewer:
+        // This conditional cannot be rewritten as domField.value.length <= 0
+        // because currently, this conditional reverses any NaN possibilities.
+
+        // That is: !(NaN > 0) yields true
+        // whereas (NaN <= 0) yields false
+        // and we need non number lengths to be perfectly okay and valid.
+        const value = !(domField.value.length > 0)
+        if(!exitCode) exitCode = value
+        colorThisDom = value
+      } else if(domField.textContent){
+        const value = !(domField.textContent.length > 0)
+        if(!exitCode) exitCode = value
+        colorThisDom = value
       } else {
         exitCode = true
+        colorThisDom = true
       }
     } else {
-      throw new Error("Big error here. Burn your laptop and bury it in nuclear radiation to keep safe.")
+      console.log("We're not in edit mode. Ignore.")
+      return false
     }
 
-    if(exitCode) {
+    if(colorThisDom) {
       domField.style.border = '2px solid red'
-      return false
     } else {
       domField.style = ''
     }
-
   }
+  return exitCode
 }
 
 function edit(bookNumber) {
