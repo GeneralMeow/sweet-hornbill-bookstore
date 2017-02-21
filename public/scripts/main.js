@@ -17,7 +17,7 @@ function update(data) {
   })
 }
 
-function replaceWithInput(type, index) {
+function replaceWithInputTags(type, index) {
   let element = document.querySelector('#'+type+index)
   if( element ){  // Normal mode to edit mode
     if( type !== 'description' ) {  // input text
@@ -56,16 +56,60 @@ function replaceWithInput(type, index) {
   }
 }
 
+function validateFields(bookNumber){
+  let exitCode = false
+  for(let field of fields){
+    const domField = document.querySelector('#'+field+'Input'+bookNumber)
+    let colorThisDom = false
+
+    if(domField){
+      if(domField.value){
+        // Note to PURR reviewer:
+        // This conditional cannot be rewritten as domField.value.length <= 0
+        // because currently, this conditional reverses any NaN possibilities.
+
+        // That is: !(NaN > 0) yields true
+        // whereas (NaN <= 0) yields false
+        // and we need non number lengths to be perfectly okay and valid.
+        const value = !(domField.value.length > 0)
+        if(!exitCode) exitCode = value
+        colorThisDom = value
+      } else if(domField.textContent){
+        const value = !(domField.textContent.length > 0)
+        if(!exitCode) exitCode = value
+        colorThisDom = value
+      } else {
+        exitCode = true
+        colorThisDom = true
+      }
+    } else {
+      console.log("We're not in edit mode. Ignore.")
+      return false
+    }
+
+    if(colorThisDom) {
+      domField.style.border = '2px solid red'
+    } else {
+      domField.style = ''
+    }
+  }
+  return exitCode
+}
+
 function edit(bookNumber) {
   const data = {id: bookNumber}
+  let exitCode = validateFields(bookNumber)
+  if(exitCode) return false
+
   for(let field of fields){
-    updateData = replaceWithInput(field, bookNumber)
+    const domField = document.querySelector('#'+field+bookNumber) || document.querySelector('#'+field+'Input'+bookNumber)
+
+    updateData = replaceWithInputTags(field, bookNumber)
     if( updateData ) {
-      const inputField = document.querySelector('#'+field+bookNumber)
-      if( inputField.tagName === 'INPUT') {
-        data[field] = inputField.value
+      if( domField.tagName === 'INPUT') {
+        data[field] = domField.value
       } else {
-        data[field] = inputField.textContent
+        data[field] = domField.textContent
       }
     }
   }

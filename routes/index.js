@@ -3,14 +3,14 @@ const router = express.Router()
 const queries = require('../queries')
 
 router.get('/', ( request, response ) => {
-  response.redirect('/1')
+  response.redirect('/list/1')
 })
 
 // TODO: Figure out how to add "count" to navbar, when navbar is being included not blocked out.
 // Then we can have the page numbers listed along bottom of navbar where they should be, instead
 // of having to style them inside the index.pug
 
-router.get('/:page', ( request, response, next ) => {
+router.get('/list/:page', ( request, response, next ) => {
   const page = request.params.page
   Promise.all([
     queries.getTenBooks(page),
